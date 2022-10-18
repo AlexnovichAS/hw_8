@@ -8,7 +8,6 @@ import ru.sberbank.managers.TestPropManager;
 
 import static ru.sberbank.utils.PropConst.BASE_URL;
 
-
 public class Hooks {
 
     private final DriverManager driverManager = DriverManager.getDriverManager();

@@ -1,5 +1,6 @@
 package ru.sberbank.pages;
 
+import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -10,16 +11,15 @@ import ru.sberbank.managers.DriverManager;
 import ru.sberbank.managers.PageManager;
 import ru.sberbank.managers.TestPropManager;
 
-import java.util.concurrent.TimeUnit;
-
-import static ru.sberbank.utils.PropConst.IMPLICITLY_WAIT;
-
+import static org.openqa.selenium.support.ui.ExpectedConditions.not;
+import static ru.sberbank.utils.PropConst.*;
 
 /**
  * Базовый класс всех страничек
  *
  * @author Алехнович Александр
  */
+
 public class BasePage {
 
     /**
@@ -37,6 +37,15 @@ public class BasePage {
      * @see PageManager
      */
     protected PageManager pageManager = PageManager.getPageManager();
+
+
+    /**
+     * Менеджер properties
+     *
+     * @author Алехнович Александр
+     * @see TestPropManager#getTestPropManager()
+     */
+    private static final TestPropManager props = TestPropManager.getTestPropManager();
 
 
     /**
@@ -64,16 +73,8 @@ public class BasePage {
      * @author Алехнович Александр
      * @see WebDriverWait
      */
-    protected WebDriverWait wait = new WebDriverWait(driverManager.getDriver(), 10, 1000);
-
-
-    /**
-     * Менеджер properties
-     *
-     * @author Алехнович Александр
-     * @see TestPropManager#getTestPropManager()
-     */
-    private final TestPropManager props = TestPropManager.getTestPropManager();
+    protected WebDriverWait wait = new WebDriverWait(driverManager.getDriver(), Integer.parseInt(props.getProperty(IMPLICITLY_WAIT)),
+            Integer.parseInt(props.getProperty(EXPLICITLY_WAITE_SLEEP)));
 
 
     /**
@@ -161,66 +162,10 @@ public class BasePage {
      *
      * @param element - веб элемент до которого нужно проскролить
      * @author Алехнович Александр
-     * @author Алехнович Александр
      */
     public WebElement scrollToElementActions(WebElement element) {
         actions.moveToElement(element).build().perform();
         return element;
-    }
-
-    /**
-     * Проверяет наличие элемента на странице
-     *
-     * @param element - веб элемент который нужно найти
-     * @author Алехнович Александр
-     */
-    public boolean isElementExist(By element) {
-        try {
-            driverManager.getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-            driverManager.getDriver().findElement(element);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        } finally {
-            driverManager.getDriver().manage().timeouts().implicitlyWait(Integer.parseInt(props.getProperty(IMPLICITLY_WAIT)), TimeUnit.SECONDS);
-        }
-    }
-
-    /**
-     * Проверяет отображение элемента на странице
-     *
-     * @param element - веб элемент который нужно проверить
-     * @author Алехнович Александр
-     */
-    public boolean isDisplayedElement(WebElement element) {
-        try {
-            driverManager.getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-            element.isDisplayed();
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        } finally {
-            driverManager.getDriver().manage().timeouts().implicitlyWait(Integer.parseInt(props.getProperty(IMPLICITLY_WAIT)), TimeUnit.SECONDS);
-        }
-    }
-
-    /**
-     * Проверяет отображение элемента на странице
-     *
-     * @param element      - веб элемент у которого нужно найти под-элемент
-     * @param underElement - xpath под-элемента который нужно проверить
-     * @author Алехнович Александр
-     */
-    public boolean isDisplayedUnderElement(WebElement element, By underElement) {
-        try {
-            driverManager.getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-            element.findElement(underElement).isDisplayed();
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        } finally {
-            driverManager.getDriver().manage().timeouts().implicitlyWait(Integer.parseInt(props.getProperty(IMPLICITLY_WAIT)), TimeUnit.SECONDS);
-        }
     }
 
     /**
@@ -230,9 +175,18 @@ public class BasePage {
      * @param value - значение вводимое в поле
      */
     protected void fillInputField(WebElement field, String value) {
-        scrollToElementJs(field);
-        waitUtilElementToBeClickable(field).click();
-        field.sendKeys(value);
-
+        scrollToElementActions(field);
+        waitUtilElementToBeClickable(field);
+        String text = field.getAttribute("value");
+        elementClickJs(field);
+        field.sendKeys(Keys.CONTROL + "a");
+        field.sendKeys(Keys.BACK_SPACE);
+        wait.until(not(ExpectedConditions.textToBePresentInElementValue(field, text)));
+        js.executeScript("arguments[0].value = '" + value.trim() + " ';", field);
+        waitUtilElementToBeClickable(field);
+        elementClickJs(field);
+        field.sendKeys(Keys.BACK_SPACE);
+        Assert.assertEquals("Поле: " + field + " было заполнено некорректно",
+                value, field.getAttribute("value"));
     }
 }

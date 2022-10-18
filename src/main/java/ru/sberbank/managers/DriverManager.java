@@ -1,7 +1,7 @@
 package ru.sberbank.managers;
 
 import org.apache.commons.exec.OS;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -13,6 +13,7 @@ import static ru.sberbank.utils.PropConst.*;
  *
  * @author Алехнович Александр
  */
+
 public class DriverManager {
 
     /**
@@ -153,7 +154,7 @@ public class DriverManager {
                 driver = new ChromeDriver();
                 break;
             default:
-                Assertions.fail("Типа браузера '" + props.getProperty(TYPE_BROWSER) + "' не существует во фреймворке");
+                Assert.fail("Типа браузера '" + props.getProperty(TYPE_BROWSER) + "' не существует во фреймворке");
         }
     }
 }

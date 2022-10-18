@@ -27,4 +27,8 @@ public class PropConst {
 
     public static final String PAGE_LOAD_TIMEOUT = "page.load.timeout";
 
+    public static final String EXPLICITLY_WAITE = "explicitly.wait";
+
+    public static final String EXPLICITLY_WAITE_SLEEP = "explicitly.wait.sleep";
+
 }

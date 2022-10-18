@@ -7,15 +7,15 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class StartPage extends BasePage {
+
     @FindBy(xpath = "//button[@class='kitt-cookie-warning__close']")
     private WebElement cookiesBtnClose;
 
     @FindBy(xpath = "//li[contains(@class,'kitt-top-menu__item_first')]")
     private List<WebElement> listBaseMenu;
 
-    @FindBy(xpath = "//a[@data-cga_click_top_menu]")
+    @FindBy(xpath = "//div[contains(@class,'kitt-top-menu__column_subaction')]//li[@class='kitt-top-menu__item']")
     private List<WebElement> listSubMenu;
-
 
     /**
      * Закрытия сообщения cookies
@@ -50,14 +50,14 @@ public class StartPage extends BasePage {
      * @param nameSubMenu - наименование подменю
      * @return StartPage - т.е. переходим на страницу {@link StartPage}
      */
-    public StartPage selectSubMenu(String nameSubMenu) {
+    public MortgagesSecondaryHousingPage selectSubMenu(String nameSubMenu) {
         for (WebElement menuItem : listSubMenu) {
             if (menuItem.getText().equalsIgnoreCase(nameSubMenu)) {
                 waitUtilElementToBeClickable(menuItem).click();
-                return this;
+                return pageManager.getMortgagesSecondaryHousingPage();
             }
         }
         Assert.fail("Подменю '" + nameSubMenu + "' не было найдено на стартовой странице!");
-        return this;
+        return pageManager.getMortgagesSecondaryHousingPage();
     }
 }
