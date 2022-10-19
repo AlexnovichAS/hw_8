@@ -166,7 +166,7 @@ public class DriverManager {
                 capabilities.setCapability("enableVideo", false);
 
                 try {
-                    RemoteWebDriver driver = new RemoteWebDriver(
+                    driver = new RemoteWebDriver(
                             URI.create("http://130.193.49.85:4444/wd/hub").toURL(),
                             capabilities
                     );
