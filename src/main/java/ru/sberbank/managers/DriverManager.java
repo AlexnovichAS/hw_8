@@ -4,6 +4,7 @@ import org.apache.commons.exec.OS;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -164,7 +165,9 @@ public class DriverManager {
                 capabilities.setVersion("84.0");
                 capabilities.setCapability("enableVNC", true);
                 capabilities.setCapability("enableVideo", false);
-
+                ChromeOptions remoteChromeOptions = new ChromeOptions();
+                remoteChromeOptions.addArguments("--disable-notifications");
+                capabilities.setCapability(ChromeOptions.CAPABILITY, remoteChromeOptions);
                 try {
                     driver = new RemoteWebDriver(
                             URI.create("http://130.193.49.85:4444/wd/hub").toURL(),
@@ -173,8 +176,6 @@ public class DriverManager {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-            default:
-                Assert.fail("Типа браузера '" + props.getProperty(TYPE_BROWSER) + "' не существует во фреймворке");
         }
     }
 }
