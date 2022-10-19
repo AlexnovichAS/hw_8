@@ -6,7 +6,7 @@ import ru.sberbank.managers.PageManager;
 public class StartPageSteps {
     private final PageManager pageManager = PageManager.getPageManager();
 
-    @И("^Закрытия сообщения cookies$")
+    @И("^Закрываем сообщения cookies$")
     public void closeCookiesDialog() {
         pageManager.getStartPage().closeCookiesDialog();
     }

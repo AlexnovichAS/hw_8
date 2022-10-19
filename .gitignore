@@ -8,3 +8,4 @@ target
 *.war
 *.jar
 *.log
+*.exe

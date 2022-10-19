@@ -6,10 +6,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = {"io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm"},
+        plugin = {"ru.sberbank.utils.AllureListener"},
         glue = {"ru/sberbank/steps"},
         features = {"src/test/resources/"},
         tags = {"@firstTest"}
 )
-public class CucumberRunner {
+public class CucumberRunnerTest {
 }

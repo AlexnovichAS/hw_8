@@ -23,8 +23,7 @@
         <!-- Dependencies Version -->
         <selenium-java.version>3.141.59</selenium-java.version>
         <junit.jupiter.version>5.7.0</junit.jupiter.version>
-        <junit-platform-runner.version>1.7.0</junit-platform-runner.version>
-        <junit-jupiter-api.version>5.7.0</junit-jupiter-api.version>
+        <junit-platform-launcher.version>1.7.0</junit-platform-launcher.version>
         <cucumber-java.version>5.7.0</cucumber-java.version>
         <cucumber-junit.version>5.7.0</cucumber-junit.version>
         <allure-cucumber5-jvm.version>2.15.0</allure-cucumber5-jvm.version>
@@ -50,8 +49,8 @@
         <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
         <dependency>
             <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-runner</artifactId>
-            <version>${junit-platform-runner.version}</version>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${junit-platform-launcher.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
@@ -66,12 +65,6 @@
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>${cucumber-junit.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit-jupiter-api.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber5-jvm -->
@@ -103,13 +96,11 @@
                 <version>3.0.0-M5</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
-                    <includes>**/*CucumberRunner.java</includes>
+                    <includes>**/*CucumberRunnerTest.java</includes>
                     <argLine>
                         -Xmx1024m
                         -Dfile.encoding=${encoding.type}
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                        -Dcucumber.options="--plugin io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm"
-<!--                        -Dcucumber.options="&#45;&#45;plugin ru.sberbank.utils.AllureListener"-->
                     </argLine>
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/reports/allure-results
