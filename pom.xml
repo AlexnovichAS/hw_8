@@ -128,13 +128,13 @@
                     <reportDirectory>${project.build.directory}/reports/allure-reports</reportDirectory>
                 </configuration>
                 <executions>
-                    <execution>
-                        <id>allure-plugin</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
+<!--                    <execution>-->
+<!--                        <id>allure-plugin</id>-->
+<!--                        <phase>install</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>report</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
                 </executions>
             </plugin>
         </plugins>
