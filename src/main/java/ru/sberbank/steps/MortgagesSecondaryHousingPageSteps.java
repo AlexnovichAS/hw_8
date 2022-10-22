@@ -20,7 +20,7 @@ public class MortgagesSecondaryHousingPageSteps {
                 pageManager.getMortgagesSecondaryHousingPage().fillField((String) key, (String) value));
     }
 
-    @И("Проставляем услуги, снижающие ставку по кредиту:$")
+    @И("Проставляем услуги, снижающие ставку по кредиту:(false|true)")
     public void processTicks(DataTable mapFieldsAndValue1) {
         mapFieldsAndValue1.asMap(String.class, String.class).forEach((key, value) ->
                 pageManager.getMortgagesSecondaryHousingPage().processTicks((String) key, (String) value));

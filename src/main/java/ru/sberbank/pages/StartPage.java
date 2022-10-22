@@ -1,8 +1,10 @@
 package ru.sberbank.pages;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -20,10 +22,13 @@ public class StartPage extends BasePage {
     /**
      * Закрытия сообщения cookies
      *
-     * @return HomePage - т.е. остаемся на этой странице
+     * @return StartPage - т.е. остаемся на этой странице
      */
     public StartPage closeCookiesDialog() {
-        waitUtilElementToBeClickable(cookiesBtnClose).click();
+        if(isDisplayedElement(cookiesBtnClose)) {
+            waitUtilElementToBeClickable(cookiesBtnClose).click();
+            wait.until(ExpectedConditions.attributeContains(cookiesBtnClose, "class", "close"));
+        }
         return this;
     }
 
@@ -31,16 +36,18 @@ public class StartPage extends BasePage {
      * Функция наведения мыши на любой пункт меню
      *
      * @param nameBaseMenu - наименование меню
-     * @return HomePage - т.е. остаемся на этой странице
+     * @return StartPage - т.е. остаемся на этой странице
      */
     public StartPage selectBaseMenu(String nameBaseMenu) {
         for (WebElement menuItem : listBaseMenu) {
             if (menuItem.getText().contains(nameBaseMenu)) {
                 waitUtilElementToBeClickable(menuItem).click();
+                WebElement element = menuItem.findElement(By.xpath("./a"));
+                wait.until(ExpectedConditions.attributeContains(element,"aria-expanded","true"));
                 return this;
             }
         }
-        Assert.fail("Меню '" + nameBaseMenu + "' не было найдено на стартовой странице!");
+        Assertions.fail("Меню '" + nameBaseMenu + "' не было найдено на стартовой странице!");
         return this;
     }
 
@@ -57,7 +64,7 @@ public class StartPage extends BasePage {
                 return pageManager.getMortgagesSecondaryHousingPage();
             }
         }
-        Assert.fail("Подменю '" + nameSubMenu + "' не было найдено на стартовой странице!");
+        Assertions.fail("Подменю '" + nameSubMenu + "' не было найдено на стартовой странице!");
         return pageManager.getMortgagesSecondaryHousingPage();
     }
 }

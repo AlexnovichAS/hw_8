@@ -1,6 +1,6 @@
 package ru.sberbank.pages;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +11,8 @@ import ru.sberbank.managers.DriverManager;
 import ru.sberbank.managers.PageManager;
 import ru.sberbank.managers.TestPropManager;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.not;
+import java.util.concurrent.TimeUnit;
+
 import static ru.sberbank.utils.PropConst.*;
 
 /**
@@ -73,7 +74,7 @@ public class BasePage {
      * @author Алехнович Александр
      * @see WebDriverWait
      */
-    protected WebDriverWait wait = new WebDriverWait(driverManager.getDriver(), Integer.parseInt(props.getProperty(IMPLICITLY_WAIT)),
+    protected WebDriverWait wait = new WebDriverWait(driverManager.getDriver(), Integer.parseInt(props.getProperty(EXPLICITLY_WAITE)),
             Integer.parseInt(props.getProperty(EXPLICITLY_WAITE_SLEEP)));
 
 
@@ -103,6 +104,7 @@ public class BasePage {
         return element;
     }
 
+
     /**
      * Клик по элементу на js коде
      *
@@ -110,8 +112,7 @@ public class BasePage {
      * @author Алехнович Александр
      */
     public void elementClickJs(WebElement element) {
-        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driverManager.getDriver();
-        javascriptExecutor.executeScript("arguments[0].click();", element);
+        js.executeScript("arguments[0].click();", element);
     }
 
     /**
@@ -131,6 +132,27 @@ public class BasePage {
         return element;
     }
 
+    public void scrollElementInCenter(WebElement element) {
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+    }
+
+    /**
+     * Проверяет наличие элемента на странице
+     *
+     * @param element - веб элемент который нужно найти
+     * @author Алехнович Александр
+     */
+    public boolean isDisplayedElement(WebElement element) {
+        try {
+            driverManager.getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+            element.isDisplayed();
+            return true;
+        } catch (StaleElementReferenceException | NoSuchElementException e) {
+            return false;
+        } finally {
+            driverManager.getDriver().manage().timeouts().implicitlyWait(Integer.parseInt(props.getProperty(IMPLICITLY_WAIT)), TimeUnit.SECONDS);
+        }
+    }
 
     /**
      * Явное ожидание состояния clickable элемента
@@ -168,6 +190,10 @@ public class BasePage {
         return element;
     }
 
+    protected String getResultReplaceAndTrim(WebElement element) {
+        return element.getText().replaceAll("₽", "").trim();
+    }
+
     /**
      * Общий метод по заполнения полей ввода
      *
@@ -175,18 +201,19 @@ public class BasePage {
      * @param value - значение вводимое в поле
      */
     protected void fillInputField(WebElement field, String value) {
-        scrollToElementActions(field);
+        String[] valueSplit = value.split("");
+        scrollElementInCenter(field);
         waitUtilElementToBeClickable(field);
-        String text = field.getAttribute("value");
-        elementClickJs(field);
         field.sendKeys(Keys.CONTROL + "a");
+        for (String s : valueSplit) {
+            field.sendKeys(s);
+        }
+        wait.until(ExpectedConditions.attributeContains(field, "value", value));
         field.sendKeys(Keys.BACK_SPACE);
-        wait.until(not(ExpectedConditions.textToBePresentInElementValue(field, text)));
-        js.executeScript("arguments[0].value = '" + value.trim() + " ';", field);
-        waitUtilElementToBeClickable(field);
-        elementClickJs(field);
         field.sendKeys(Keys.BACK_SPACE);
-        Assert.assertEquals("Поле: " + field + " было заполнено некорректно",
-                value, field.getAttribute("value"));
+        field.sendKeys(valueSplit[valueSplit.length - 2]);
+        field.sendKeys(valueSplit[valueSplit.length - 1]);
+        Assertions.assertEquals(value, field.getAttribute("value"),
+                "Поле: " + field + " было заполнено некорректно");
     }
 }

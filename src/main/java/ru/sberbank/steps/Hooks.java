@@ -16,13 +16,12 @@ public class Hooks {
 
     @Before
     public void before() {
-        driverManager.getDriver().get(TestPropManager.getTestPropManager().getProperty(BASE_URL));
         InitManager.initFramework();
+        driverManager.getDriver().get(TestPropManager.getTestPropManager().getProperty(BASE_URL));
     }
 
     @After
     public void after() {
-        driverManager.getDriver().manage().deleteAllCookies();
         InitManager.quitFramework();
     }
 }
