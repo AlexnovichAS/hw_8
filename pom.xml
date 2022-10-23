@@ -39,19 +39,19 @@
             <version>${selenium-java.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
+      <!--  &lt;!&ndash; https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter &ndash;&gt;
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${junit.jupiter.version}</version>
-        </dependency>
+        </dependency>-->
 
-        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
+     <!--   &lt;!&ndash; https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner &ndash;&gt;
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
             <version>${junit-platform-launcher.version}</version>
-        </dependency>
+        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
         <dependency>
@@ -93,7 +93,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>3.0.0-M7</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                     <includes>**/*CucumberRunnerTest.java</includes>
@@ -103,8 +103,7 @@
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
                     <systemPropertyVariables>
-                        <allure.results.directory>${project.build.directory}/reports/allure-results
-                        </allure.results.directory>
+                        <allure.results.directory>${project.build.directory}/reports/allure-results</allure.results.directory>
                     </systemPropertyVariables>
                 </configuration>
                 <dependencies>
