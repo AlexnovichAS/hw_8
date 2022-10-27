@@ -1,7 +1,7 @@
 package ru.sberbank.managers;
 
 import org.apache.commons.exec.OS;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -170,13 +170,13 @@ public class DriverManager {
                 capabilities.setCapability(ChromeOptions.CAPABILITY, remoteChromeOptions);
                 try {
                     driver = new RemoteWebDriver(
-                            URI.create("http://130.193.49.85:4444/wd/hub").toURL(),capabilities);
+                            URI.create("http://130.193.49.85:4444/wd/hub").toURL(), capabilities);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
                 break;
             default:
-                Assert.fail("Типа браузера '" + props.getProperty(TYPE_BROWSER) + "' не существует во фреймворке");
+                Assertions.fail("Типа браузера '" + props.getProperty(TYPE_BROWSER) + "' не существует во фреймворке");
         }
     }
 }

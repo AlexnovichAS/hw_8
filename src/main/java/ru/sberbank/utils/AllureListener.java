@@ -10,6 +10,11 @@ import ru.sberbank.managers.DriverManager;
 
 import static io.cucumber.plugin.event.Status.FAILED;
 
+/**
+ * Класс следит за тестом (при падении теста делается скриншот)
+ *
+ * @author Алехнович Александр
+ */
 public class AllureListener extends AllureCucumber5Jvm {
 
     public static byte[] getScreenshot() {

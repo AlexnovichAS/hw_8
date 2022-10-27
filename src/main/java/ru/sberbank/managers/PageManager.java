@@ -1,7 +1,6 @@
 package ru.sberbank.managers;
 
 
-import ru.sberbank.pages.BasePage;
 import ru.sberbank.pages.MortgagesSecondaryHousingPage;
 import ru.sberbank.pages.StartPage;
 
@@ -32,13 +31,6 @@ public class PageManager {
      * @author Алехнович Александр
      */
     private MortgagesSecondaryHousingPage mortgagesSecondaryHousingPage;
-
-    /**
-     * Базовый класс всех страничек
-     *
-     * @author Алехнович Александр
-     */
-    private BasePage basePage;
 
     /**
      * Конструктор специально был объявлен как private (singleton паттерн)

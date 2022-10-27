@@ -1,6 +1,6 @@
 package ru.sberbank.pages;
 
-//import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -172,7 +172,7 @@ public class BasePage {
     /**
      * Явное ожидание того что элемент станет видемым
      *
-     * @param element - веб элемент который мы ожидаем что будет  виден на странице
+     * @param element - веб элемент который мы ожидаем что будет виден на странице
      * @author Алехнович Александр
      */
     protected WebElement waitUtilElementToBeVisible(WebElement element) {
@@ -190,6 +190,13 @@ public class BasePage {
         return element;
     }
 
+    /**
+     * Функция позволяющая производить замену значения текста и убирать пробелы
+     *
+     * @param element - веб элемент у которого заменяется значение текста и убираются пробелы
+     * @author Алехнович Александр
+     * @author Алехнович Александр
+     */
     protected String getResultReplaceAndTrim(WebElement element) {
         return element.getText().replaceAll("₽", "").trim();
     }
@@ -213,19 +220,24 @@ public class BasePage {
         field.sendKeys(Keys.BACK_SPACE);
         field.sendKeys(valueSplit[valueSplit.length - 2]);
         field.sendKeys(valueSplit[valueSplit.length - 1]);
-//        Assertions.assertEquals(value, field.getAttribute("value"),
-//                "Поле: " + field + " было заполнено некорректно");
+        Assertions.assertEquals(value, field.getAttribute("value"),
+                "Поле: " + field + " было заполнено некорректно");
     }
 
+    /**
+     * Ожидание загрузки страницы
+     *
+     * @author Алехнович Александр
+     */
     public void checkPageIsReady() {
         String prevState = driverManager.getDriver().getPageSource();
-        for (int i=0; i<25; i++){
+        for (int i = 0; i < 25; i++) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ignore) {
 
             }
-            if (prevState.equals(driverManager.getDriver().getPageSource())){
+            if (prevState.equals(driverManager.getDriver().getPageSource())) {
                 break;
             }
         }

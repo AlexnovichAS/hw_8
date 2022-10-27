@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         plugin = {"ru.sberbank.utils.AllureListener"},
-        glue = {"steps"},
+        glue = {"ru.sberbank.steps"},
         features = {"src/test/resources/"},
         tags = {"@firstTest"}
 )

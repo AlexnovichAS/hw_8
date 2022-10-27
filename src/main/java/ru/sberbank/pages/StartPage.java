@@ -1,6 +1,6 @@
 package ru.sberbank.pages;
 
-//import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,12 +10,24 @@ import java.util.List;
 
 public class StartPage extends BasePage {
 
+    /**
+     * @author Алехнович Александр
+     * Закрытие сообщения cookies
+     */
     @FindBy(xpath = "//button[@class='kitt-cookie-warning__close']")
     private WebElement cookiesBtnClose;
 
+    /**
+     * @author Алехнович Александр
+     * Лист элементов главного меню
+     */
     @FindBy(xpath = "//li[contains(@class,'kitt-top-menu__item_first')]")
     private List<WebElement> listBaseMenu;
 
+    /**
+     * @author Алехнович Александр
+     * Лист элементов подменю в элементе главного меню "Ипотека"
+     */
     @FindBy(xpath = "//div[contains(@class,'kitt-top-menu__column_subaction')]//li[@class='kitt-top-menu__item']")
     private List<WebElement> listSubMenu;
 
@@ -25,7 +37,7 @@ public class StartPage extends BasePage {
      * @return StartPage - т.е. остаемся на этой странице
      */
     public StartPage closeCookiesDialog() {
-        if(isDisplayedElement(cookiesBtnClose)) {
+        if (isDisplayedElement(cookiesBtnClose)) {
             waitUtilElementToBeClickable(cookiesBtnClose).click();
             wait.until(ExpectedConditions.attributeContains(cookiesBtnClose, "class", "close"));
         }
@@ -43,11 +55,11 @@ public class StartPage extends BasePage {
             if (menuItem.getText().contains(nameBaseMenu)) {
                 waitUtilElementToBeClickable(menuItem).click();
                 WebElement element = menuItem.findElement(By.xpath("./a"));
-                wait.until(ExpectedConditions.attributeContains(element,"aria-expanded","true"));
+                wait.until(ExpectedConditions.attributeContains(element, "aria-expanded", "true"));
                 return this;
             }
         }
-//        Assertions.fail("Меню '" + nameBaseMenu + "' не было найдено на стартовой странице!");
+        Assertions.fail("Меню '" + nameBaseMenu + "' не было найдено на стартовой странице!");
         return this;
     }
 
@@ -64,7 +76,7 @@ public class StartPage extends BasePage {
                 return pageManager.getMortgagesSecondaryHousingPage();
             }
         }
-//        Assertions.fail("Подменю '" + nameSubMenu + "' не было найдено на стартовой странице!");
+        Assertions.fail("Подменю '" + nameSubMenu + "' не было найдено на стартовой странице!");
         return pageManager.getMortgagesSecondaryHousingPage();
     }
 }
